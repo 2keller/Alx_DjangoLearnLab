@@ -1,5 +1,2 @@
-class Book(models.Model):
-    title = models.CharField(max_length=200)
-    author = models.CharField(max_length=100)
-    publication_year = models.IntegerField()
-    
+book_instance = Book("1984", "George Orwell", 1949)
+

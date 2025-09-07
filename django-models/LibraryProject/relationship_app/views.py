@@ -7,7 +7,7 @@ from django.views import View
 def book_list(request):
     books = Book.objects.all()
     response = ", ".join([f"{book.title} by {book.author}" for book in books])
-    return HttpResponse(response)
+    return render(request, 'list_books.html', {'books': books})
 
 
 

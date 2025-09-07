@@ -3,15 +3,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from .models import Library, Book
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.decorators import user_passes_test
-
-# -----------------------
-# Book Views
-# -----------------------
 
 @login_required(login_url='relationship_app:login')
 def list_books(request):
@@ -31,10 +26,6 @@ class LibraryDetailView(LoginRequiredMixin, DetailView):
     def get_object(self):
         return get_object_or_404(Library, pk=self.kwargs['pk'])
 
-# -----------------------
-# Authentication Views
-# -----------------------
-
 class CustomLoginView(LoginView):
     template_name = 'relationship_app/login.html'
 
@@ -48,14 +39,12 @@ class CustomLogoutView(LogoutView):
 class RegisterView(CreateView):
     form_class = UserCreationForm
     template_name = 'relationship_app/register.html'
-    success_url = '/login/'  # redirect to login page after registration
+    success_url = '/login/'
 
     def form_valid(self, form):
         response = super().form_valid(form)
         messages.success(self.request, 'Registration successful! Please log in.')
         return response
-
-
 
 def is_admin(user):
     return hasattr(user, 'userprofile') and user.userprofile.role == 'Admin'

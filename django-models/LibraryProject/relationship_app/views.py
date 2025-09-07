@@ -1,34 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
-from django.views.generic.detail import DetailView
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView
-from .models import Library , Book
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView
-from django.urls import reverse_lazy
+from django.views.generic import CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Library, Book
 
-# Function-based view to list all books
-def list_books_simple(request):
-    books = Book.objects.all().select_related('author')
-    return render(request, 'relationship_app/templates/list_books.html', {'books': books})
+# -----------------------
+# Book Views
+# -----------------------
 
-# Class-based view to display library details
-class LibraryDetailView(LoginRequiredMixin, DetailView):
-    model = Library
-    template_name = 'relationship_app/templates/library_detail.html'
-    context_object_name = 'library'
-    login_url = 'relationship_app:login'
-
-    def get_object(self):
-        return get_object_or_404(Library, pk=self.kwargs['pk'])
 @login_required(login_url='relationship_app:login')
-
 def list_books(request):
     books = Book.objects.all().select_related('author')
     libraries = Library.objects.all()
@@ -37,36 +20,34 @@ def list_books(request):
         'libraries': libraries
     })
 
-# Authentication Views
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.success(request, f'Welcome back, {username}!')
-                return redirect('relationship_app:list_books')
-        else:
-            messages.error(request, 'Invalid username or password.')
-    else:
-        form = AuthenticationForm()
-    
-    return render(request, 'relationship_app/login.html', {'form': form})
+class LibraryDetailView(LoginRequiredMixin, DetailView):
+    model = Library
+    template_name = 'relationship_app/library_detail.html'
+    context_object_name = 'library'
+    login_url = 'relationship_app:login'
 
-@login_required
-def logout_view(request):
-    logout(request)
-    messages.success(request, 'You have been successfully logged out.')
-    return render(request, 'relationship_app/logout.html')
+    def get_object(self):
+        return get_object_or_404(Library, pk=self.kwargs['pk'])
+
+# -----------------------
+# Authentication Views
+# -----------------------
+
+class CustomLoginView(LoginView):
+    template_name = 'relationship_app/login.html'
+
+    def form_valid(self, form):
+        messages.success(self.request, f'Welcome back, {form.get_user().username}!')
+        return super().form_valid(form)
+
+class CustomLogoutView(LogoutView):
+    template_name = 'relationship_app/logout.html'
 
 class RegisterView(CreateView):
     form_class = UserCreationForm
     template_name = 'relationship_app/register.html'
-    success_url = reverse_lazy('relationship_app:login')
-    
+    success_url = '/login/'  # redirect to login page after registration
+
     def form_valid(self, form):
         response = super().form_valid(form)
         messages.success(self.request, 'Registration successful! Please log in.')

@@ -9,7 +9,7 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LibraryProject.settings')
 django.setup()
 
-from relationship_app.models import Author, Book, Library, Librian
+from relationship_app.models import Author, Book, Library, Librarian
 
 def get_books_by_author(author_name):
     try:
@@ -34,9 +34,9 @@ def list_books_in_library(library_name):
 def get_librarian_for_library(library_name):
     try:
         library = Library.objects.get(name=library_name)
-        librarian = Librian.objects.get(library=library)
+        librarian = Librarian.objects.get(library=library)
         print(f"Librarian for {library.name}: {librarian.name}")
-    except (Library.DoesNotExist, Librian.DoesNotExist):
+    except (Library.DoesNotExist, Librarian.DoesNotExist):
         print(f"No librarian found for library '{library_name}'")
 
 if __name__ == "__main__":

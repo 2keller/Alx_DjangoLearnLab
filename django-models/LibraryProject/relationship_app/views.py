@@ -21,6 +21,6 @@ class LibraryDetailView(View):
         response = f"Library: {library.name}, Books: " + ", ".join(
             [f"{book.title} by {book.author}" for book in books]
         )
-        return HttpResponse(response)
+        return render(request, 'library_detail.html', {'library': library, 'books': books})
 
     

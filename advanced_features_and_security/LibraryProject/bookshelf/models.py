@@ -8,6 +8,15 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
     publication_year = models.IntegerField()
+
+    class Meta:
+        permissions = [
+            ("can_view"
+             , "Can_create"
+             , "Can_edit"
+             , "Can_delete"),
+        ]
+    
     
 
 class CustomUser(AbstractUser):
@@ -22,13 +31,6 @@ class CustomUser(AbstractUser):
     
     def get_short_name(self):
         return self.first_name
-    class Meta:
-        permissions = [
-            ("can_view"
-             , "Can_create"
-             , "Can_edit"
-             , "Can_delete"),
-        ]
     
 
 class CustomUserManager(BaseUserManager):

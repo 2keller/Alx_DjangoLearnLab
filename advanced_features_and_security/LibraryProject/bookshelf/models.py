@@ -10,12 +10,12 @@ class Book(models.Model):
     publication_year = models.IntegerField()
 
     class Meta:
-        permissions = [
-            ("can_view"
-             , "Can_create"
-             , "Can_edit"
-             , "Can_delete"),
-        ]
+         permissions = [
+        ("can_view", "Can view article"),
+        ("can_create", "Can create article"),
+        ("can_edit", "Can edit article"),
+        ("can_delete", "Can delete article"),
+    ]
     
     
 

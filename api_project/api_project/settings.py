@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework.authtoken',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,12 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<<< HEAD:api_project/api_project/settings.py
     'api',
-========
-    'bookshelf', 
-    'relationship_app',   
->>>>>>>> 86b26dcaaf771fbbc966bb89c123ff0d569f3fb8:advanced_features_and_security/LibraryProject/LibraryProject/settings.py
+    'bookshelf',
+    'relationship_app',
 ]
 
 AUTH_USER_MODEL = 'relationship_app.CustomModel'
@@ -58,10 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-<<<<<<<< HEAD:api_project/api_project/settings.py
-ROOT_URLCONF = 'api_project.urls'
-========
-ROOT_URLCONF = 'LibraryProject.urls'    
+ROOT_URLCONF = 'LibraryProject.urls'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
@@ -92,7 +88,18 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
->>>>>>>> 86b26dcaaf771fbbc966bb89c123ff0d569f3fb8:advanced_features_and_security/LibraryProject/LibraryProject/settings.py
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+
+
+
+
+CSRF_COOKIE_SECURE = True
 
 TEMPLATES = [
     {
@@ -101,6 +108,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',

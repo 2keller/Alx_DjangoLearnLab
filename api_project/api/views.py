@@ -5,7 +5,12 @@ from .serializers import BookSerializer
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveAPIView
 from rest_framework.viewsets import ModelViewSet
 from django.views.generic import CreateView, UpdateView, DeleteView
-from . import BookList , generics.ListCreateAPIView
+from rest_framework.generics import ListAPIView
+from rest_framework import generics
+
+class BookList(generics.ListCreateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
 
 def BookList(request):
     books = Book.objects.all()

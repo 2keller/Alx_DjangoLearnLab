@@ -51,6 +51,9 @@ REST_FRAMEWORK = {
         # You can also include others like:
         'rest_framework.authentication.SessionAuthentication',
     ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 }
 
 AUTH_USER_MODEL = 'relationship_app.CustomModel'

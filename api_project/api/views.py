@@ -7,7 +7,7 @@ from rest_framework.viewsets import ModelViewSet
 from django.views.generic import CreateView, UpdateView, DeleteView
 # Create your views here.
 
-def book_list(request):
+def bookList(request):
     books = Book.objects.all()
     serializer = BookSerializer(books, many=True)
     return render(request, 'book_list.html', {'books': serializer.data})

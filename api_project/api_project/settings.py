@@ -45,6 +45,14 @@ INSTALLED_APPS = [
     'relationship_app',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        # You can also include others like:
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
+
 AUTH_USER_MODEL = 'relationship_app.CustomModel'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -135,6 +143,7 @@ DATABASES = {
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
+    
     
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',

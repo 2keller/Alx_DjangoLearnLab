@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from .models import Book
-from .serializer import BookSerializer
+from .serializers import BookSerializer
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveAPIView
 from rest_framework.viewsets import ModelViewSet
 from django.views.generic import CreateView, UpdateView, DeleteView

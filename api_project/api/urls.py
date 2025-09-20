@@ -5,7 +5,7 @@ from api.views import book_list
 from rest_framework import routers,defaultRouter
 from api.views import BookViewSet
 
-router = defaultRouter()
+router = DefaultRouter()
 router.register(r'books', BookViewSet)
 
 urlpatterns = [

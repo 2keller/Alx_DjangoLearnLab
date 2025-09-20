@@ -5,9 +5,9 @@ from .serializers import BookSerializer
 from rest_framework.generics import ListAPIView, RetrieveDestroyAPIView, RetrieveAPIView
 from rest_framework.viewsets import ModelViewSet
 from django.views.generic import CreateView, UpdateView, DeleteView
-# Create your views here.
+from . import BookList , generics.ListCreateAPIView
 
-def bookList(request):
+def BookList(request):
     books = Book.objects.all()
     serializer = BookSerializer(books, many=True)
     return render(request, 'book_list.html', {'books': serializer.data})

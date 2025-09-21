@@ -1,0 +1,81 @@
+{% extends 'feelings/base.html' %}
+{% block title %}Edit Post - Your Feelings Matter{% endblock %}
+
+{% block content %}
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <div class="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-6">
+      <i data-lucide="edit-3" class="w-10 h-10 text-heart-400"></i>
+    </div>
+    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Edit Your Post</h1>
+    <p class="text-xl text-white/80 max-w-2xl mx-auto">Update your thoughts and feelings</p>
+  </div>
+
+  <!-- Edit Form -->
+  <div class="max-w-2xl mx-auto">
+    <div class="glass-effect rounded-3xl p-8 shadow-xl">
+      <form method="post" class="space-y-6">
+        {% csrf_token %}
+        
+        <!-- Content Field -->
+        <div>
+          <label for="{{ form.content.id_for_label }}" class="block text-white font-semibold text-lg mb-3">
+            How are you feeling?
+          </label>
+          <div class="relative">
+            {{ form.content }}
+            <div class="absolute bottom-3 right-3 text-white/50 text-sm">
+              <span id="char-count">{{ post.content|length }}</span>/255
+            </div>
+          </div>
+          <div class="mt-3 text-white/70 text-sm">
+            <i data-lucide="info" class="w-4 h-4 inline mr-1"></i>
+            Update your thoughts, feelings, or experiences
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 pt-6">
+          <button type="submit" class="flex-1 bg-gradient-to-r from-heart-400 to-heart-500 hover:from-heart-500 hover:to-heart-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 hover:scale-105 shadow-lg flex items-center justify-center space-x-2">
+            <i data-lucide="save" class="w-5 h-5"></i>
+            <span>Update Post</span>
+          </button>
+          <a href="{% url 'feelings:feed' %}" class="flex-1 bg-white/20 hover:bg-white/30 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 hover:scale-105 shadow-lg flex items-center justify-center space-x-2">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            <span>Cancel</span>
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Character counter
+    const textarea = document.querySelector('textarea');
+    const charCount = document.getElementById('char-count');
+    
+    if (textarea && charCount) {
+      textarea.addEventListener('input', function() {
+        const count = this.value.length;
+        charCount.textContent = count;
+        
+        if (count > 200) {
+          charCount.classList.add('text-yellow-400');
+        } else if (count > 240) {
+          charCount.classList.remove('text-yellow-400');
+          charCount.classList.add('text-red-400');
+        } else {
+          charCount.classList.remove('text-yellow-400', 'text-red-400');
+        }
+      });
+    }
+
+    // Auto-resize textarea
+    if (textarea) {
+      textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+      });
+    }
+  </script>
+{% endblock %}

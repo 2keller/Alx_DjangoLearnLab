@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--_MODULUS=izRcce8ENtb5VhIHsD6rbPREVaRTCa0qujDPSB4+RPClUpz/7Sb0+FhCaMJGj7E2eacqC7yIb3rIdliJ80dQI/NbxIjQ4zSGYtHygr092c6cWAMl3A4frGhz8FG7gWIZkaIG1YGTulV5ZsxGfwzlU8K48LFCQuSiKe1bhDBJWV4=-->
+<!--_SIG=KW3vEvu/2hiCuvpvNhKak31g+TVNKzRr+l3jFOJE3+UuoT0gsnOM6GhqJvuHzhHpVuP+VQCRYdD6IL41COrTTeK1p+EqFBuLubejsXsHC27Du10UdTozSsBMvSTEyBEcQgunkFLrjq34s6+Sn+TPPS9uSJEKZSakqNSNFauw4go=-->
+<Package Id="WordMUI.en-us" Type="MSI" Path="WordMUI.MSI" Version="1.0" ProductCode="{90150000-001B-0409-1000-0000000FF1CE}" MSIVersion="15.0.4420.1017" ProductLanguage="1033" Platform="x64">
+	<Feature Id="MsoInstalledPackagesScopedIntl_1033" Cost="0">
+		<OptionRef Id="AlwaysInstalled"/>
+	</Feature>
+	<Feature Id="SetupControllerFiles" Cost="468">
+		<OptionRef Id="AlwaysInstalled"/>
+	</Feature>
+	<Feature Id="ExcelConverter12Intl_1033" Cost="3315936">
+		<OptionRef Id="AlwaysInstalled"/>
+	</Feature>
+	<Feature Id="WORDSharedFilesIntl_1033" Cost="1601944">
+		<OptionRef Id="WORDSharedFiles"/>
+	</Feature>
+	<Feature Id="WhiteRabbitHiddenIntl_1033" Cost="57344">
+		<OptionRef Id="WhiteRabbitHidden"/>
+	</Feature>
+	<Feature Id="WordDocumentPartsFilesIntl_1033" Cost="3706055">
+		<OptionRef Id="WORDFiles"/>
+	</Feature>
+	<Feature Id="WordQuickFormatsFilesIntl_1033" Cost="204085">
+		<OptionRef Id="WordQuickFormatsFiles"/>
+	</Feature>
+	<Feature Id="WORDHelpFilesIntl_1033" Cost="624467">
+		<OptionRef Id="WORDHelpFiles"/>
+	</Feature>
+	<Feature Id="SetupXmlFiles" Cost="468">
+		<OptionRef Id="AlwaysInstalled"/>
+	</Feature>
+	<Feature Id="WORDDocumentTemplatesIntl_1033" Cost="9524977">
+		<OptionRef Id="WORDDocumentTemplates"/>
+	</Feature>
+	<Feature Id="WordPdfiFilesIntl_1033" Cost="12920">
+		<OptionRef Id="WordPdfi"/>
+	</Feature>
+	<Feature Id="Gimme_OnDemandData" Cost="0">
+		<OptionRef Id="Gimme_OnDemandData"/>
+	</Feature>
+	<Feature Id="WORDNonBootFilesIntl_1033" Cost="39936">
+		<OptionRef Id="WORDFiles"/>
+	</Feature>
+	<Feature Id="WordBibliographyFilesIntl_1033" Cost="111310">
+		<OptionRef Id="WordBibliographyFiles"/>
+	</Feature>
+</Package>

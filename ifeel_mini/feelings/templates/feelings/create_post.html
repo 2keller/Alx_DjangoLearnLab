@@ -1,0 +1,107 @@
+{% extends 'feelings/base.html' %}
+{% block title %}Share Your Feelings - Your Feelings Matter{% endblock %}
+
+{% block content %}
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <div class="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-6">
+      <i data-lucide="edit-3" class="w-10 h-10 text-heart-400"></i>
+    </div>
+    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Share Your Feelings</h1>
+    <p class="text-xl text-white/80 max-w-2xl mx-auto">What's on your mind today? Your thoughts matter to our community.</p>
+  </div>
+
+  <!-- Post Form -->
+  <div class="max-w-2xl mx-auto">
+    <div class="glass-effect rounded-3xl p-8 shadow-xl">
+      <form method="post" class="space-y-6">
+        {% csrf_token %}
+        
+        <!-- Content Field -->
+        <div>
+          <label for="{{ form.content.id_for_label }}" class="block text-white font-semibold text-lg mb-3">
+            How are you feeling today?
+          </label>
+          <div class="relative">
+            {{ form.content }}
+            <div class="absolute bottom-3 right-3 text-white/50 text-sm">
+              <span id="char-count">0</span>/255
+            </div>
+          </div>
+          <div class="mt-3 text-white/70 text-sm">
+            <i data-lucide="info" class="w-4 h-4 inline mr-1"></i>
+            Share your thoughts, feelings, or experiences with our caring community 💙
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 pt-6">
+          <button type="submit" class="flex-1 bg-gradient-to-r from-heart-400 to-heart-500 hover:from-heart-500 hover:to-heart-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 hover:scale-105 shadow-lg flex items-center justify-center space-x-2">
+            <i data-lucide="send" class="w-5 h-5"></i>
+            <span>Share Post</span>
+          </button>
+          <a href="{% url 'feelings:feed' %}" class="flex-1 bg-white/20 hover:bg-white/30 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 hover:scale-105 shadow-lg flex items-center justify-center space-x-2">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            <span>Cancel</span>
+          </a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Tips Section -->
+    <div class="mt-8 glass-effect rounded-2xl p-6">
+      <h3 class="text-white font-semibold text-lg mb-4 flex items-center">
+        <i data-lucide="lightbulb" class="w-5 h-5 mr-2 text-warm-400"></i>
+        Tips for sharing
+      </h3>
+      <div class="grid md:grid-cols-2 gap-4 text-white/80 text-sm">
+        <div class="flex items-start space-x-2">
+          <i data-lucide="heart" class="w-4 h-4 text-heart-400 mt-0.5 flex-shrink-0"></i>
+          <span>Be authentic and honest about your feelings</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i data-lucide="shield" class="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0"></i>
+          <span>This is a safe space - no judgment here</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i data-lucide="users" class="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0"></i>
+          <span>Your post will help others feel less alone</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i data-lucide="smile" class="w-4 h-4 text-yellow-400 mt-0.5 flex-shrink-0"></i>
+          <span>Share both joys and struggles - all feelings matter</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Character counter
+    const textarea = document.querySelector('textarea');
+    const charCount = document.getElementById('char-count');
+    
+    if (textarea && charCount) {
+      textarea.addEventListener('input', function() {
+        const count = this.value.length;
+        charCount.textContent = count;
+        
+        if (count > 200) {
+          charCount.classList.add('text-yellow-400');
+        } else if (count > 240) {
+          charCount.classList.remove('text-yellow-400');
+          charCount.classList.add('text-red-400');
+        } else {
+          charCount.classList.remove('text-yellow-400', 'text-red-400');
+        }
+      });
+    }
+
+    // Auto-resize textarea
+    if (textarea) {
+      textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+      });
+    }
+  </script>
+{% endblock %}

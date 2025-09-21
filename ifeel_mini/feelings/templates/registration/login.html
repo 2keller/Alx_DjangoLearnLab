@@ -1,0 +1,77 @@
+{% extends 'feelings/base.html' %}
+{% block title %}Welcome Back - Your Feelings Matter{% endblock %}
+
+{% block content %}
+  <!-- Welcome Header -->
+  <div class="text-center mb-12">
+    <div class="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-6">
+      <i data-lucide="log-in" class="w-10 h-10 text-heart-400"></i>
+    </div>
+    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Welcome Back</h1>
+    <p class="text-xl text-white/80 max-w-2xl mx-auto">Sign in to continue sharing your feelings with our caring community</p>
+  </div>
+
+  <!-- Login Form -->
+  <div class="max-w-md mx-auto">
+    <div class="glass-effect rounded-3xl p-8 shadow-xl">
+      <form method="post" class="space-y-6">
+        {% csrf_token %}
+        
+        <!-- Username Field -->
+        <div>
+          <label for="{{ form.username.id_for_label }}" class="block text-white font-semibold mb-2">
+            <i data-lucide="user" class="w-4 h-4 inline mr-2"></i>
+            Username
+          </label>
+          {{ form.username }}
+          {% if form.username.errors %}
+            <div class="mt-2 text-red-300 text-sm">{{ form.username.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Password Field -->
+        <div>
+          <label for="{{ form.password.id_for_label }}" class="block text-white font-semibold mb-2">
+            <i data-lucide="lock" class="w-4 h-4 inline mr-2"></i>
+            Password
+          </label>
+          {{ form.password }}
+          {% if form.password.errors %}
+            <div class="mt-2 text-red-300 text-sm">{{ form.password.errors.0 }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-4">
+          <button type="submit" class="w-full bg-gradient-to-r from-heart-400 to-heart-500 hover:from-heart-500 hover:to-heart-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 hover:scale-105 shadow-lg flex items-center justify-center space-x-2">
+            <i data-lucide="log-in" class="w-5 h-5"></i>
+            <span>Sign In</span>
+          </button>
+          <input type="hidden" name="next" value="{{ next }}">
+        </div>
+      </form>
+
+      <!-- Signup Link -->
+      <div class="mt-8 text-center">
+        <p class="text-white/80">
+          Don't have an account? 
+          <a href="{% url 'feelings:signup' %}" class="text-white hover:text-warm-200 transition-colors font-semibold">
+            Join our community
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Welcome Message -->
+    <div class="mt-8 glass-effect rounded-2xl p-6 text-center">
+      <h3 class="text-white font-semibold text-lg mb-3 flex items-center justify-center">
+        <i data-lucide="heart" class="w-5 h-5 mr-2 text-heart-400"></i>
+        We're glad you're here
+      </h3>
+      <p class="text-white/80 text-sm">
+        Your feelings matter, and our community is here to support you. 
+        Take a moment to share what's on your mind today.
+      </p>
+    </div>
+  </div>
+{% endblock %}

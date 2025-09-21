@@ -1,0 +1,1 @@
+web: gunicorn ifeel_mini.wsgi:application

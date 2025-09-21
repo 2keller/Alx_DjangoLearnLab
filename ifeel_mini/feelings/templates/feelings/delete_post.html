@@ -1,0 +1,77 @@
+{% extends 'feelings/base.html' %}
+{% block title %}Delete Post - Your Feelings Matter{% endblock %}
+
+{% block content %}
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <div class="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-6">
+      <i data-lucide="trash-2" class="w-10 h-10 text-red-400"></i>
+    </div>
+    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Delete Post</h1>
+    <p class="text-xl text-white/80 max-w-2xl mx-auto">Are you sure you want to delete this post?</p>
+  </div>
+
+  <!-- Post Preview -->
+  <div class="max-w-2xl mx-auto mb-8">
+    <div class="glass-effect rounded-3xl p-6 shadow-xl">
+      <div class="flex items-center space-x-3 mb-4">
+        <div class="w-10 h-10 bg-gradient-to-br from-warm-200 to-warm-300 rounded-full flex items-center justify-center">
+          {% if post.user.profile.profile_picture %}
+            <img src="{{ post.user.profile.profile_picture.url }}" alt="{{ post.user.username }}" class="w-8 h-8 rounded-full object-cover">
+          {% else %}
+            <i data-lucide="user" class="w-5 h-5 text-warm-600"></i>
+          {% endif %}
+        </div>
+        <div>
+          <a href="{% url 'feelings:profile' post.user.username %}" class="text-white font-semibold hover:text-warm-200 transition-colors">
+            @{{ post.user.username }}
+          </a>
+          <p class="text-white/60 text-sm">{{ post.created_at|timesince }} ago</p>
+        </div>
+      </div>
+      
+      <div class="thought-bubble rounded-xl p-4">
+        <p class="text-soft-800 text-lg leading-relaxed">{{ post.content }}</p>
+      </div>
+      
+      <div class="flex items-center space-x-4 mt-4">
+        <div class="flex items-center space-x-2 text-white/70">
+          <span class="text-lg">🤗</span>
+          <span class="text-sm">{{ post.hugs }}</span>
+        </div>
+        <div class="flex items-center space-x-2 text-white/70">
+          <span class="text-lg">😢</span>
+          <span class="text-sm">{{ post.tears }}</span>
+        </div>
+        <div class="flex items-center space-x-2 text-white/70">
+          <i data-lucide="message-circle" class="w-4 h-4"></i>
+          <span class="text-sm">{{ post.comments.count }} comment{{ post.comments.count|pluralize }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Form -->
+  <div class="max-w-md mx-auto">
+    <div class="glass-effect rounded-3xl p-8 shadow-xl">
+      <div class="text-center mb-6">
+        <h3 class="text-xl font-bold text-white mb-2">This action cannot be undone</h3>
+        <p class="text-white/70">Once deleted, this post and all its comments will be permanently removed.</p>
+      </div>
+
+      <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div class="flex flex-col sm:flex-row gap-4">
+          <button type="submit" class="flex-1 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 hover:scale-105 shadow-lg flex items-center justify-center space-x-2">
+            <i data-lucide="trash-2" class="w-5 h-5"></i>
+            <span>Delete Post</span>
+          </button>
+          <a href="{% url 'feelings:feed' %}" class="flex-1 bg-white/20 hover:bg-white/30 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 hover:scale-105 shadow-lg flex items-center justify-center space-x-2">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            <span>Cancel</span>
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

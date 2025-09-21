@@ -1,0 +1,56 @@
+{% extends 'logs/base.html' %}
+
+{% block title %}Create Log - Star Trek Log System{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card warp-in">
+                <div class="card-header text-center bg-success text-white">
+                    <h3 class="mb-0">
+                        <i class="bi bi-plus-circle"></i>
+                        New Log Entry
+                    </h3>
+                    <p class="mb-0">Document your journey through the final frontier</p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="content" class="form-label">
+                                <i class="bi bi-pencil"></i> Log Content
+                            </label>
+                            <textarea class="form-control" id="content" name="content" rows="10" placeholder="Captain's log, stardate..."></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="level" class="form-label">
+                                <i class="bi bi-exclamation-triangle"></i> Log Level
+                            </label>
+                            <select class="form-select" id="level" name="level">
+                                <option value="INFO" selected>INFO</option>
+                                <option value="WARNING">WARNING</option>
+                                <option value="ERROR">ERROR</option>
+                                <option value="CRITICAL">CRITICAL</option>
+                            </select>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-save"></i>
+                                Save Log
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'view_logs' %}" class="btn btn-outline-secondary btn-sm mt-2">
+                        <i class="bi bi-arrow-left"></i> View All Logs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

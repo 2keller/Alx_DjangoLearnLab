@@ -12,9 +12,9 @@ class BookSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Publication year cannot be greater than 2022")
         return Data
 
-class AurthorSerializers(serializers.ModelSerializer):
-    Books = BookSerializer(many=True, read_only=True)
+class AuthorSerializer(serializers.ModelSerializer):
+    book = serializers.StringRelatedField(many=True, read_only=True)
     class Meta:
         model = Book
-        field = __name__
+        fields = '__all__'
 

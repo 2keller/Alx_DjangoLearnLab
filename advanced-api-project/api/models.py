@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from rest_framework import viewsets, filters
+from django_filters import rest_framework as django_filters"
 
 # Create your models here.
 class Author(models.Model):

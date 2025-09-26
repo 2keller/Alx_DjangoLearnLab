@@ -14,6 +14,7 @@ class BookListCreateAPIView(generics.ListCreateAPIView):
     filterset_fields = ['author__name', 'publication_year']
     search_fields = ['title', 'author__name']
     ordering_fields = ['publication_year', 'title']
+    ordering = ['publication_year', 'title']
 
     def perform_create(self, serializer):
         title = serializer.validated_data.get('title')

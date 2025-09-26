@@ -7,5 +7,7 @@ class Author(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=100)
     publication_year = models.IntegerField()
-    author = models.ForeignKey() #figure out how to link a foreing key one to many 
-    
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
+
+    def __str__(self):
+        return self.title

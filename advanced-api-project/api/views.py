@@ -3,12 +3,17 @@ from rest_framework import generics, permissions
 from rest_framework.exceptions import ValidationError
 from .models import Book
 from .serializers import BookSerializer
-
-# 📚 List and Create Books
+from django.filters.rest_framework import DjangoFilterBackend
+#  List and Create Books
 class BookListCreateAPIView(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['author__name', 'publication_year']
+    search_fields = ['title', 'author__name']
+    ordering_fields = ['publication_year', 'title']
 
     def perform_create(self, serializer):
         title = serializer.validated_data.get('title')
@@ -16,7 +21,7 @@ class BookListCreateAPIView(generics.ListCreateAPIView):
             raise ValidationError({'title': 'Book with this title already exists.'})
         serializer.save()
 
-# 🔍 Retrieve, Update, and Delete a Book
+#  Retrieve, Update, and Delete a Book
 class BookRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer

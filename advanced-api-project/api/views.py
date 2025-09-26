@@ -3,6 +3,8 @@ from .models import Book
 from django.urls import reverse_lazy
 from django.views.generic  import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .serializers import BookSerializer, AuthorSerializer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, IsAuthenticated
+
 # Create your views here.
 #implimenting crud operations fro the book using views 
 

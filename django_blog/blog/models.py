@@ -15,4 +15,15 @@ class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     published_date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.title
+    
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s profile"
+
                  

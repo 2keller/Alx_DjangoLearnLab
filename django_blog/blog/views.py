@@ -1,40 +1,48 @@
+# In blog/views.py
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from . models import User, Profile, Post
+# Note: Ensure you import UserCreationForm correctly, assuming it's imported
+from django.contrib.auth.forms import UserCreationForm 
+from . models import Profile, Post
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User # Redundant if from django.contrib.auth is used, but kept for context
 
 class CustomUSerCReationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")
+        # Removed "password1", "password2" as they are handled automatically by UserCreationForm
+        fields = ("username", "email") 
 
-#a view to handle registration of new users to the site 
 
-
+# A view to handle registration of new users to the site 
 def Register(request):
     if request.method == "POST":
         form = CustomUSerCReationForm(request.POST)
         if form.is_valid():
-            # Save the new user object
             user = form.save() 
-            
-            # --- FIX: Create the corresponding Profile object ---
+            login(request, user)
             Profile.objects.create(user=user)
             
             return redirect("login")
     else:
         form = CustomUSerCReationForm()
     return render(request, "registration/register.html", {"form": form})
+
 @login_required
 def profile(request):
-    return render(request, "registration/profile.html")
+    #
+    user_profile, created = Profile.objects.get_or_create(user=request.user)
+    
+    context = {
+        'profile': user_profile,
+        'user': request.user 
+    }
 
-
+    return render(request, "profile/profile.html", context) 
 
 def home(request):
     """
@@ -44,4 +52,4 @@ def home(request):
     context = {
         'posts': posts
     }
-    return render(request, "django_blog\blog\template\blog\home.html", context)
+    return render(request, 'blog/home.html', context)

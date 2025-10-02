@@ -1,20 +1,25 @@
 {% extends "blog/base.html" %}
 
-{% block title %}{{ object.title }}{% endblock %}
+{% block title %}All Blog Posts{% endblock %}
 
 {% block content %}
-    <article class="full-post">
-        <h1>{{ object.title }}</h1>
-        <p class="post-meta">By {{ object.author.username }} on {{ object.published_date|date:"F d, Y" }}</p>
+    <h1>Blog Posts</h1>
+    
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'post_create' %}" class="btn btn-primary">Create New Post</a></p>
+    {% endif %}
 
-        {% if user.is_authenticated and user == object.author %}
-            <div class="post-actions">
-                <a class="btn btn-edit" href="{% url 'post_update' pk=object.pk %}">Edit</a>
-                <a class="btn btn-delete" href="{% url 'post_delete' pk=object.pk %}">Delete</a>
-            </div>
-        {% endif %}
-
-        <div class="post-content">
-            {{ object.content|linebreaksbr }} </div>
-    </article>
+    {% for post in posts %}
+        <article class="post-entry">
+            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+            
+            <p class="post-meta">By {{ post.author.username }} on {{ post.published_date|date:"F d, Y" }}</p>
+            
+            <p>{{ post.content|truncatewords:50 }}</p> 
+            <a href="{% url 'post_detail' pk=post.pk %}">Read More &raquo;</a>
+        </article>
+        <hr>
+    {% empty %}
+        <p>No posts found yet. Be the first to post!</p>
+    {% endfor %}
 {% endblock %}

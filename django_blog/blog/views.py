@@ -1,20 +1,24 @@
+
+    
 # In blog/views.py
 
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .forms import PostForm 
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django import forms
-# Note: Ensure you import UserCreationForm correctly, assuming it's imported
 from django.contrib.auth.forms import UserCreationForm 
-from . models import Profile, Post
+# FIX: Removed the trailing comma (,)
+from . models import Profile, Post 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User # Redundant if from django.contrib.auth is used, but kept for context
+from django.contrib.auth.models import User 
 
 class CustomUSerCReationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
         model = User
-        # Removed "password1", "password2" as they are handled automatically by UserCreationForm
         fields = ("username", "email") 
 
 
@@ -24,7 +28,8 @@ def Register(request):
         form = CustomUSerCReationForm(request.POST)
         if form.is_valid():
             user = form.save() 
-            login(request, user)
+            # FIX: Removed login(request, user) call. If you redirect to "login", 
+            # the user should not be logged in first, as that would immediately log them out.
             Profile.objects.create(user=user)
             
             return redirect("login")
@@ -34,7 +39,6 @@ def Register(request):
 
 @login_required
 def profile(request):
-    #
     user_profile, created = Profile.objects.get_or_create(user=request.user)
     
     context = {
@@ -53,3 +57,47 @@ def home(request):
         'posts': posts
     }
     return render(request, 'blog/home.html', context)
+
+
+class PostListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+    context_object_name = 'posts'
+    ordering = ['-published_date']
+
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'blog/post_detail.html'
+    context_object_name = 'post'
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'blog/post_create.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'blog/post_update.html'
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == Post.author
+    
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'blog/post_delete.html'
+    # FIX: DeleteView requires a success_url to know where to redirect after deletion.
+    success_url = '/' 
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == Post.author

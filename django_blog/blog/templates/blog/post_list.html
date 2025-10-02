@@ -1,0 +1,25 @@
+{% extends "blog/base.html" %}
+
+{% block title %}All Blog Posts{% endblock %}
+
+{% block content %}
+    <h1>Blog Posts</h1>
+    
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'post_create' %}" class="btn btn-primary">Create New Post</a></p>
+    {% endif %}
+
+    {% for post in posts %}
+        <article class="post-entry">
+            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+            
+            <p class="post-meta">By {{ post.author.username }} on {{ post.published_date|date:"F d, Y" }}</p>
+            
+            <p>{{ post.content|truncatewords:50 }}</p> 
+            <a href="{% url 'post_detail' pk=post.pk %}">Read More &raquo;</a>
+        </article>
+        <hr>
+    {% empty %}
+        <p>No posts found yet. Be the first to post!</p>
+    {% endfor %}
+{% endblock %}

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from taggit.managers import TaggableManager
 
+
 class Author(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)

@@ -32,4 +32,5 @@ urlpatterns = [
     path('post/<int:pk>/comments/new/', CommentCreateView.as_view(), name='comment-create'),  # ✅ FIXED: unique route
     path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='comment-update'),
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
+    path('tags/<slug:slug>/', views.TaggedPostListView.as_view(), name='tagged-posts'),
 ]

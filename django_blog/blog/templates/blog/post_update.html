@@ -13,7 +13,9 @@
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-info" type="submit">Update Post</button>
-                <a class="btn btn-secondary" href="{% url 'post_detail' pk=object.pk %}">Cancel</a>
+                
+                {# CORRECTION: Changed 'post_detail' to 'post-detail' to match urls.py #}
+                <a class="btn btn-secondary" href="{% url 'post-detail' pk=object.pk %}">Cancel</a>
             </div>
         </form>
     </div>

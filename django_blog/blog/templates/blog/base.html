@@ -1,27 +1,43 @@
-{%load static%}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Django Blog{% endblock %}</title>
+    
+    {# If you are using Bootstrap, you should include its CSS here #}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <header>
         <nav>
+            <form method="get" action="{% url 'post-search' %}" class="search-form">
+            <input type="text" name="q" placeholder="Search posts..." value="{{ request.GET.q }}">
+            <button type="submit">Search</button>
+            </form>
             <ul>
+                {# 'home' is your PostListView based on urls.py #}
                 <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'posts' %}">Blog Posts</a></li>
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
+                
+                {# Assuming 'posts' is correct, or intended to be 'home' #}
+                <li><a href="{% url 'home' %}">Blog Posts</a></li> 
+                
+                {% if user.is_authenticated %}
+                    {# Show these links ONLY to logged-in users #}
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    {# Show these links ONLY to logged-out users #}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
 
     <div class="content">
         {% block content %}
-        <!-- Page-specific content goes here -->
         {% endblock %}
     </div>
 

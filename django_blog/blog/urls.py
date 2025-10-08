@@ -34,4 +34,3 @@ urlpatterns = [
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
     path('tags/<slug:slug>/', views.TaggedPostListView.as_view(), name='tagged-posts'),
 ]
-path("tags/<slug:tag_slug>/", "PostByTagListView.as_view()

@@ -1,11 +1,9 @@
 from django.urls import path
-from . import views
-
+from .views import RegisterView, LoginView, FollowUserView, UnfollowUserView
 
 urlpatterns = [
-    path('register/', views.RegisterView.as_view(), name='register'),
-    path('login/', views.LoginView.as_view(), name='login'),
-    path('logout/', views.LogoutView.as_view(), name='logout'),
-    path('follow/<str:username>/', views.FollowUserView.as_view(), name='follow'),
-    path('unfollow/<str:username>/', views.UnfollowUserView.as_view(), name='unfollow'), 
+    path('register/', RegisterView.as_view(), name='register'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('follow/<int:user_id>/', FollowUserView.as_view(), name='follow-user-by-id'),
+    path('unfollow/<int:user_id>/', UnfollowUserView.as_view(), name='unfollow-user-by-id'),
 ]

@@ -6,6 +6,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import RegisterSerializer, LoginSerializer
 from rest_framework.permissions import AllowAny
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import permission_classes, api_view
+from rest_framework.permissions import IsAuthenticated
 
 
 # Create your views here.
@@ -39,4 +42,27 @@ class LoginView(APIView):
                 'token': token
             }, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
+
+@api_view['POST']
+@permission_classes([IsAuthenticated])
+def follow_user(request, username):
+    current_user = request.user
+    try:
+        user_to_follow = CustomUser.objects.get(username=username)
+        current_user.following.add(user_to_follow)
+        return Response({'message': 'User followed successfully.'}, status=status.HTTP_200_OK)
+    except CustomUser.DoesNotExist:
+        return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+    
+@api_view['POST']
+@permission_classes([IsAuthenticated])
+def unfollow_user(request, username):
+    current_user = request.user
+    try:
+        user_to_unfollow = CustomUser.objects.get(username=username)
+        current_user.following.remove(user_to_unfollow)
+        return Response({'message': 'User unfollowed successfully.'}, status=status.HTTP_200_OK)
+    except CustomUser.DoesNotExist:
+        return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)

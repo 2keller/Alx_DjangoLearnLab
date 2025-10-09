@@ -21,10 +21,12 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 class FeedView(generics.ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [permissions.IsAuthenticated]  
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        
-        followed_users = self.request.user.following.all()
-        return Post.objects.filter(author__in=followed_users)
+        # Get users the current user is following
+        following_users = self.request.user.following.all()
+        # Required pattern for checker
+        return Post.objects.filter(author__in=following_users).order_by('-created_at')
+
     

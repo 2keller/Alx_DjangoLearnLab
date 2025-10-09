@@ -3,6 +3,8 @@ from .models import Post, Comment
 #import create, read, update, delete
 from rest_framework import viewsets
 from .serializers import PostSerializer, CommentSerializer
+from rest_framework import generics, permissions
+
 
 # Create your views here.
 
@@ -15,3 +17,14 @@ class PostViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+
+class FeedView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]  
+
+    def get_queryset(self):
+        
+        followed_users = self.request.user.following.all()
+        return Post.objects.filter(author__in=followed_users)
+    

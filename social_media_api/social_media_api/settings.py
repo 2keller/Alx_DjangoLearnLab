@@ -35,6 +35,7 @@ REST_FRAMEWORK = {
 # Application definition
 
 INSTALLED_APPS = [
+    'posts',
     'rest_framework.authtoken',
     'accounts',
     'rest_framework',

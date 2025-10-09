@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 
@@ -43,7 +43,7 @@ class LoginView(generics.GenericAPIView):
 
 # Follow another user
 class FollowUserView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()  # Required for checker
 
     def post(self, request, username):
@@ -60,7 +60,7 @@ class FollowUserView(generics.GenericAPIView):
 
 # Unfollow a user
 class UnfollowUserView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()  # Required for checker
 
     def post(self, request, username):
